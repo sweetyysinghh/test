@@ -4,10 +4,22 @@ function App() {
   const [jsonData, setJsonData] = useState('');
   const [response, setResponse] = useState(null);
   const [selectedData, setSelectedData] = useState([]);
+  const [fullName, setFullName] = useState('');
+  const [dob, setDob] = useState('');
 
-  // Handle the input change for the POST request
-  const handleInputChange = (e) => {
+  // Handle the input change for JSON data
+  const handleJsonInputChange = (e) => {
     setJsonData(e.target.value);
+  };
+
+  // Handle input change for full name
+  const handleNameChange = (e) => {
+    setFullName(e.target.value);
+  };
+
+  // Handle input change for DOB
+  const handleDobChange = (e) => {
+    setDob(e.target.value);
   };
 
   // Handle the POST request submission
@@ -15,9 +27,6 @@ function App() {
     e.preventDefault();
 
     try {
-      const fullName = "Jane Doe";
-      const dob = "01011990";
-
       const res = await fetch('http://127.0.0.1:5000/bfhl', {
         method: 'POST',
         headers: {
@@ -88,13 +97,34 @@ function App() {
       
       {/* Form to handle POST request */}
       <form onSubmit={handleSubmit}>
-        <textarea
-          value={jsonData}
-          onChange={handleInputChange}
-          rows="10"
-          cols="50"
-          placeholder='Enter JSON like {"data": ["A","B","1"]}'
-        />
+        <div>
+          <label>Full Name:</label>
+          <input
+            type="text"
+            value={fullName}
+            onChange={handleNameChange}
+            placeholder="Enter Full Name"
+          />
+        </div>
+        <div>
+          <label>Date of Birth (DDMMYYYY):</label>
+          <input
+            type="text"
+            value={dob}
+            onChange={handleDobChange}
+            placeholder="Enter DOB in DDMMYYYY format"
+          />
+        </div>
+        <div>
+          <label>JSON Data:</label>
+          <textarea
+            value={jsonData}
+            onChange={handleJsonInputChange}
+            rows="10"
+            cols="50"
+            placeholder='Enter JSON like {"data": ["A","B","1"]}'
+          />
+        </div>
         <br />
         <button type="submit">Submit POST Request</button>
       </form>
